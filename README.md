@@ -10,9 +10,9 @@ This is a simple example that strips out a lot of generally accepted architectur
 
 ##### Branches:
 
-"start" branch is the raw templated project created by Android Studio Chipmunk | 2021.2.1 Patch 2. This is supplied for comparison purposes. ***It appears you are currently on this branch.***
+"start" branch is the raw templated project created by Android Studio Chipmunk | 2021.2.1 Patch 2. This is supplied for comparison purposes.
 
-"complete" branch is the example/tutorial application where the "magic"😀 happens. ******
+"complete" branch is the example/tutorial application where the "magic"😀 happens.  ***It appears you are currently on this branch.***
 
 ##### This example demonstrates/teaches:
 
@@ -28,25 +28,19 @@ This is a simple example that strips out a lot of generally accepted architectur
 
 The starting point of this app was the template for a new project in Android Studio Chipmunk | 2021.2.1 Patch 2 called “Fragment + ViewModel” and using Kotlin. You can create an empty project based on that template and compare it to this project to discern what needs to be done to get your project started with the Room database library. 
 
-============================
+First, as always, we need to add the neccessary dependencies to the project. In the app level build.gradle file I hsve marked my additions with comments. These additions in turn require version updates to other dependencies and settings. Once you have made my additions, Android Studio will help you identify the other required changes. Be patient as it might take a few iterations and pay close attention to the build output messages.	
 
-First, as always, we need to add the neccessary dependencies to the project. 	
+Next we should define our database and it's schema. For this example I setup a database of family pets and where the family lived at the time the pet was a family member. I hard-coded the source of these data in com.delasystems.androidcomposeroomexample.datasource.DataCollections.kt. In other situations the data could come from REST calls or any other source. For simplicity we are hardcoding it right into the app. This would rarely be the best choice.
 
-The gist of using Room is that we need to define a *@Module* that *@Provides* instances of Classes where and when we need them. This is advantageous because we can *@Inject* instances of our dependencies into the code where we need them. The '@' sign preceding Module, Provides and Inject are there because those are annotations provided by the hilt libraries and processors.
+Since our database will be made up of tables whioch are made up of columns let's start by creating our tables, which in Room are called entities and are annotated with @Entity. They live in com.delasystems.androidcomposeroomexample.database.Entities.kt. You can read about the syntax and the various annotations I used in that file at https://developer.android.com/training/data-storage/room/defining-data .
 
-In order to use Hilt in our App we need to create a subclass of Application, in our examples called *RoysApplication*, which is annotated with *@HiltApplication*. Please note that in *RoysApplication* we provide a getter to return the instance of *RoysApplication*. I use the singular "the" because in Android, the Application class is instantiated as a singleton, there will only be one Application object.
+In com.delasystems.androidcomposeroomexample.database.PetDatabase.kt I assemble the entities into a database. There is a discussion of this at https://developer.android.com/training/data-storage/room .
 
-Next let's create some simple classes that we can use to inject. What I created for that purpose is in the package named *com.delasystems.hilt.data*. I created a simple class called *RoysFiler* which has but one method, *getFile()* , which simply returns the apps *filesDir*. I chose this because it is an Android API call that requires a *context*. I also created a very simple data repository called *RoysRepository*. It too has just one method called *getFileDirectory()*. It calls the *getFile()* method in *RoysFiler*. I call the repositories *getFileDirectory()* method from my ViewModel. I chose this configuration because we have a hierarchy of dependancies. RoysFiler needs a context which is not available to plain old Kotlin classes, that is those not derived from an Android  Activity or a very few other Android classes. RoysRepository in turn depends on RoysFiler, MainViewModel depends on RoysRepository and finally, MainFragment depends on MainViewModel.
+The work of inserting data and querying it is done in DAO which is in com.delasystems.androidcomposeroomexample.database.PetDataDao.kt which is also discussed in the above link.
 
-We could obtain a context in MainFragment and pass it down to MainViewModel as a parameter to *getFilesPath()*, who  could pass it along to RoysRepository.getFileDirectory() who could could pass it to *RoysFiler.getFile()* who would now have it available to use to get *filesDir*.
+In the DAO I demonstrate different ways of doing insertions such as singular insertion and inserting lists. I also show how to construct a transaction to ensure data integrity. For clarity, I have bypassed using a repository which would be best practice. Instead these are called directly from the ViewModel in response to stimuli originating in the Compose UI MainActivity.
 
-Instead, we directly *@Inject* a context into the constructor of *RoysFiler*. Likewise, I directly inject a *RoysFiler* instance into the constructor of *RoysRepository* and on up the dependency tree.
-
-But where do these instances we are injecting coming from? They come from a set of functions we will now create. These functions are called Providers. You can see the Providers I created in the file RoysModule in the *com.delasystems.hilt.di* package. The first provider in that file is *providesRoysRepository(filer: RoyFiler)* which returns an instance of *RoysRepository* whenever an instance is needed. It is also annotated as *@Singleton*. This means that Hilt will always return the same instance, it won't create a new instance each time.
-
-Likewise *providesRoyFiler(context: Context)* provides a single instance of *RoysFiler* whenever one is needed. 
-
-Finally, *provideContext()* provides an *ApplicationContext* when desired. Notice that it is not annotated as *@Singleton*. That is because Application is always a singleton so the annotation is not needed.
+![Screenshot_1663184519](./Screenshot_1663184519.png)
 
 Thank you and if you have ny comments or questions please feel free to contact me at rwatson@dela.com
 
