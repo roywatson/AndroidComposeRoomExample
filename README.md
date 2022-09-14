@@ -40,7 +40,7 @@ The work of inserting data and querying it is done in DAO which is in com.delasy
 
 In the DAO I demonstrate different ways of doing insertions such as singular insertion and inserting lists. I also show how to construct a transaction to ensure data integrity. For clarity, I have bypassed using a repository which would be best practice. Instead these are called directly from the ViewModel in response to stimuli originating in the Compose UI MainActivity.
 
-![Screenshot_1663184519](/Users/roywatson/devel/___my_sample_code/AndroidComposeRoomExample/Screenshot_1663184519.png)
+![Screenshot_1663184519](./Screenshot_1663184519.png)
 
 Thank you and if you have ny comments or questions please feel free to contact me at rwatson@dela.com
 
