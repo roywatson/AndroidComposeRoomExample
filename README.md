@@ -30,7 +30,9 @@ The starting point of this app was the template for a new project in Android Stu
 
 ============================
 
-The gist of using Hilt is that we need to define a *@Module* that *@Provides* instances of Classes where and when we need them. This is advantageous because we can *@Inject* instances of our dependencies into the code where we need them. The '@' sign preceding Module, Provides and Inject are there because those are annotations provided by the hilt libraries and processors.
+First, as always, we need to add the neccessary dependencies to the project. 	
+
+The gist of using Room is that we need to define a *@Module* that *@Provides* instances of Classes where and when we need them. This is advantageous because we can *@Inject* instances of our dependencies into the code where we need them. The '@' sign preceding Module, Provides and Inject are there because those are annotations provided by the hilt libraries and processors.
 
 In order to use Hilt in our App we need to create a subclass of Application, in our examples called *RoysApplication*, which is annotated with *@HiltApplication*. Please note that in *RoysApplication* we provide a getter to return the instance of *RoysApplication*. I use the singular "the" because in Android, the Application class is instantiated as a singleton, there will only be one Application object.
 
