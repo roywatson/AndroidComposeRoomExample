@@ -17,26 +17,37 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.delasystems.androidcomposeroomexample.ui.theme
+package com.delasystems.androidcomposeroomexample.ui.misc
 
-import androidx.compose.material.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.delasystems.androidcomposeroomexample.R
+import com.delasystems.androidcomposeroomexample.ui.theme.fonts
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+@Composable
+fun Attribution() {
+    Text(
+        text = "Sample Code by:",
+        fontSize = 18.sp,
     )
-)
+    Text(
+        text = "R O Y  W A T S O N",
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 30.sp,
+    )
+    Text(
+        text = "rwatson@dela.com",
+        fontSize = 22.sp,
+    )
+    Text(
+        text = "www.dela.com",
+        fontSize = 22.sp,
+        modifier = Modifier.padding(start = 0.dp, top = 5.dp, end = 0.dp, bottom = 15.dp)
+    )
 
-val fonts = FontFamily(
-    Font(R.font.rosario_light, weight = FontWeight.Light),
-    Font(R.font.rosario_regular, FontWeight.Normal)
-)
+}

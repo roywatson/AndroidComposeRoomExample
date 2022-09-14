@@ -17,26 +17,20 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.delasystems.androidcomposeroomexample.ui.theme
+package com.delasystems.androidcomposeroomexample.database
 
-import androidx.compose.material.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import com.delasystems.androidcomposeroomexample.R
+import androidx.room.Database
+import androidx.room.RoomDatabase
 
-// Set of Material typography styles to start with
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
+@Database(
+    entities =
+    [
+        LocationEntity::class,
+        PetEntity::class
+    ],
+    version = 1,
+    exportSchema = true
 )
-
-val fonts = FontFamily(
-    Font(R.font.rosario_light, weight = FontWeight.Light),
-    Font(R.font.rosario_regular, FontWeight.Normal)
-)
+abstract class PetDatabase: RoomDatabase() {
+    abstract fun petsDao(): PetDataDao
+}
